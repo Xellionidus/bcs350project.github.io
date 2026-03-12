@@ -1,449 +1,111 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+const menuToggle = document.getElementById("menuToggle");
+const navLinks = document.getElementById("navLinks");
+
+menuToggle.addEventListener("click", () => {
+  navLinks.classList.toggle("show");
+});
+
+const faqQuestions = document.querySelectorAll(".faq-question");
+
+faqQuestions.forEach((question) => {
+  question.addEventListener("click", () => {
+    const answer = question.nextElementSibling;
+
+    if (answer.style.maxHeight) {
+      answer.style.maxHeight = null;
+    } else {
+      document.querySelectorAll(".faq-answer").forEach((item) => {
+        item.style.maxHeight = null;
+      });
+      answer.style.maxHeight = answer.scrollHeight + "px";
+    }
+  });
+});
+
+const testimonials = document.querySelectorAll(".testimonial");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+
+let currentTestimonial = 0;
+
+function showTestimonial(index) {
+  testimonials.forEach((testimonial) => {
+    testimonial.classList.remove("active");
+  });
+
+  testimonials[index].classList.add("active");
 }
 
-html {
-  scroll-behavior: smooth;
-}
+nextBtn.addEventListener("click", () => {
+  currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+  showTestimonial(currentTestimonial);
+});
 
-body {
-  font-family: Arial, sans-serif;
-  line-height: 1.6;
-  background-color: #f9f7f2;
-  color: #1f2933;
-}
+prevBtn.addEventListener("click", () => {
+  currentTestimonial =
+    (currentTestimonial - 1 + testimonials.length) % testimonials.length;
+  showTestimonial(currentTestimonial);
+});
 
-img {
-  max-width: 100%;
-  display: block;
-  border-radius: 16px;
-}
+const contactForm = document.getElementById("contactForm");
+const formSuccess = document.getElementById("formSuccess");
 
-header {
-  background-color: #102a43;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
+contactForm.addEventListener("submit", function (e) {
+  e.preventDefault();
 
-.navbar {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: relative;
-}
+  const name = document.getElementById("name");
+  const email = document.getElementById("email");
+  const dog = document.getElementById("dog");
+  const message = document.getElementById("message");
 
-.logo {
-  color: white;
-  font-size: 1.6rem;
-  font-weight: bold;
-}
+  let isValid = true;
 
-.nav-links {
-  display: flex;
-  list-style: none;
-  gap: 1.5rem;
-}
+  clearErrors();
 
-.nav-links a {
-  color: white;
-  text-decoration: none;
-  font-weight: 600;
-  transition: 0.3s ease;
-}
-
-.nav-links a:hover {
-  color: #9fd3c7;
-}
-
-.menu-toggle {
-  display: none;
-  background: none;
-  border: none;
-  color: white;
-  font-size: 1.8rem;
-  cursor: pointer;
-}
-
-.hero {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 4rem 2rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  align-items: center;
-}
-
-.hero-text h1 {
-  font-size: 3rem;
-  color: #102a43;
-  margin-bottom: 1rem;
-}
-
-.hero-text p {
-  font-size: 1.1rem;
-  margin-bottom: 1.5rem;
-  color: #334e68;
-}
-
-.hero-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.btn {
-  display: inline-block;
-  padding: 0.9rem 1.4rem;
-  border-radius: 10px;
-  text-decoration: none;
-  font-weight: bold;
-  transition: 0.3s ease;
-  border: none;
-  cursor: pointer;
-}
-
-.primary-btn {
-  background-color: #2f855a;
-  color: white;
-}
-
-.primary-btn:hover {
-  background-color: #276749;
-}
-
-.secondary-btn {
-  background-color: #d9e2ec;
-  color: #102a43;
-}
-
-.secondary-btn:hover {
-  background-color: #bcccdc;
-}
-
-.section {
-  padding: 4rem 2rem;
-}
-
-.section-title {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-.section-title h2 {
-  font-size: 2.2rem;
-  color: #102a43;
-  margin-bottom: 0.5rem;
-}
-
-.section-title p {
-  color: #486581;
-  max-width: 700px;
-  margin: 0 auto;
-}
-
-.about-content,
-.service-grid,
-.benefits-grid,
-.faq-container,
-.contact-form,
-.testimonial-container,
-.gallery-layout {
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
-.about-content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-}
-
-.about-card,
-.service-card,
-.testimonial,
-.faq-item,
-.contact-form,
-.gallery-text-card {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(16, 42, 67, 0.08);
-}
-
-.about-card,
-.service-card,
-.gallery-text-card {
-  padding: 2rem;
-}
-
-.about-card h3,
-.service-card h3,
-.gallery-text-card h3 {
-  margin-bottom: 1rem;
-  color: #102a43;
-}
-
-.service-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
-}
-
-.service-card:hover,
-.gallery-text-card:hover,
-.about-card:hover {
-  transform: translateY(-5px);
-  transition: 0.3s ease;
-}
-
-.benefits {
-  background-color: #eef6f4;
-}
-
-.benefits-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-}
-
-.benefit-item {
-  background: white;
-  padding: 1.2rem;
-  border-radius: 12px;
-  font-weight: 600;
-  box-shadow: 0 4px 12px rgba(16, 42, 67, 0.06);
-}
-
-.gallery-section {
-  background-color: #f1f5f9;
-}
-
-.gallery-layout {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 2rem;
-  align-items: center;
-}
-
-.gallery-image img {
-  width: 100%;
-  min-height: 420px;
-  object-fit: cover;
-  border-radius: 18px;
-  box-shadow: 0 10px 24px rgba(16, 42, 67, 0.12);
-}
-
-.gallery-text-card p {
-  margin-bottom: 1rem;
-  color: #486581;
-}
-
-.gallery-text-card .btn {
-  margin-top: 0.5rem;
-}
-
-.testimonial-container {
-  position: relative;
-  max-width: 800px;
-}
-
-.testimonial {
-  display: none;
-  padding: 2rem;
-  text-align: center;
-}
-
-.testimonial.active {
-  display: block;
-}
-
-.testimonial p {
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
-  color: #334e68;
-}
-
-.testimonial h4 {
-  color: #102a43;
-}
-
-.testimonial-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: #102a43;
-  color: white;
-  border: none;
-  padding: 0.7rem 1rem;
-  cursor: pointer;
-  border-radius: 50%;
-}
-
-#prevBtn {
-  left: -20px;
-}
-
-#nextBtn {
-  right: -20px;
-}
-
-.faq-container {
-  max-width: 800px;
-}
-
-.faq-item {
-  margin-bottom: 1rem;
-  overflow: hidden;
-}
-
-.faq-question {
-  width: 100%;
-  text-align: left;
-  background-color: white;
-  border: none;
-  padding: 1.2rem;
-  font-size: 1rem;
-  font-weight: bold;
-  color: #102a43;
-  cursor: pointer;
-}
-
-.faq-answer {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease;
-  padding: 0 1.2rem;
-}
-
-.faq-answer p {
-  padding-bottom: 1rem;
-  color: #486581;
-}
-
-.contact-form {
-  max-width: 700px;
-  padding: 2rem;
-}
-
-.form-group {
-  margin-bottom: 1.2rem;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.4rem;
-  font-weight: bold;
-  color: #102a43;
-}
-
-.form-group input,
-.form-group textarea {
-  width: 100%;
-  padding: 0.9rem;
-  border: 1px solid #bcccdc;
-  border-radius: 10px;
-  font-size: 1rem;
-}
-
-.form-group input:focus,
-.form-group textarea:focus {
-  outline: none;
-  border-color: #2f855a;
-}
-
-.error-message {
-  color: #c53030;
-  font-size: 0.9rem;
-  display: block;
-  margin-top: 0.3rem;
-}
-
-.success-message {
-  color: #2f855a;
-  font-weight: bold;
-  margin-top: 1rem;
-}
-
-footer {
-  background-color: #102a43;
-  color: white;
-  text-align: center;
-  padding: 2rem;
-  margin-top: 2rem;
-}
-
-.footer-content h3 {
-  margin-bottom: 0.5rem;
-}
-
-.footer-content p {
-  margin: 0.3rem 0;
-}
-
-@media (max-width: 900px) {
-  .hero,
-  .about-content,
-  .service-grid,
-  .benefits-grid,
-  .gallery-layout {
-    grid-template-columns: 1fr;
+  if (name.value.trim() === "") {
+    showError(name, "Name is required.");
+    isValid = false;
   }
 
-  .hero-text h1 {
-    font-size: 2.3rem;
+  if (email.value.trim() === "") {
+    showError(email, "Email is required.");
+    isValid = false;
+  } else if (!validateEmail(email.value.trim())) {
+    showError(email, "Please enter a valid email address.");
+    isValid = false;
   }
 
-  .testimonial-btn {
-    position: static;
-    transform: none;
-    margin: 1rem 0.5rem 0;
+  if (dog.value.trim() === "") {
+    showError(dog, "Dog's name is required.");
+    isValid = false;
   }
 
-  .testimonial-container {
-    text-align: center;
+  if (message.value.trim() === "") {
+    showError(message, "Please enter a message.");
+    isValid = false;
   }
 
-  .gallery-image img {
-    min-height: 300px;
+  if (isValid) {
+    formSuccess.textContent = "Thank you! Your message has been sent successfully.";
+    contactForm.reset();
+  } else {
+    formSuccess.textContent = "";
   }
+});
+
+function showError(input, message) {
+  const formGroup = input.parentElement;
+  const errorMessage = formGroup.querySelector(".error-message");
+  errorMessage.textContent = message;
 }
 
-@media (max-width: 768px) {
-  .menu-toggle {
-    display: block;
-  }
+function clearErrors() {
+  const errorMessages = document.querySelectorAll(".error-message");
+  errorMessages.forEach((msg) => {
+    msg.textContent = "";
+  });
+}
 
-  .nav-links {
-    display: none;
-    flex-direction: column;
-    background-color: #102a43;
-    position: absolute;
-    top: 70px;
-    right: 20px;
-    width: 220px;
-    padding: 1rem;
-    border-radius: 12px;
-  }
-
-  .nav-links.show {
-    display: flex;
-  }
-
-  .hero {
-    padding-top: 2rem;
-  }
-
-  .section {
-    padding: 3rem 1.2rem;
-  }
-
-  .hero-text h1 {
-    font-size: 2rem;
-  }
+function validateEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
